@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo,Github,博客," />
+  <meta name="keywords" content="TensorFlow,iOS," />
 
 
 
@@ -87,49 +87,43 @@
 
 
 
-<meta name="description" content="Hexo + Github 搭建个人博客最近工作遇到了一些挑战，不是来源于技术，但是根源还是自己的能力不能被他人认可。遂下定决心开始有规划，有持续性地总结和记录。第一步就从搭建这个博客开始～
-准备工作搭建博客主要分为以下步骤，其中 accessory 是可选的。
+<meta name="description" content="TensorFlow (二) - TensorFlow iOS ExamplesBuild编译可参考 TF 的 ios_examples 的 ReadMe 。
 
-Github
-Hexo
-配置Hexo
-发布博客
-Accessory(optional)
+升级 Xcode 到 7.3 版本及更高
+安装命令行工具。
 
-Github
-注册Github账号
-建立Pu">
+1$ xcode-select --install
+
+安装 Homebrew, automake, libtool
+
+123$ /usr/bin/ruby -e &amp;quot;$">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hexo + Github 搭建个人博客">
-<meta property="og:url" content="http://yoursite.com/2017/03/16/Hexo-Github-搭建个人博客/index.html">
+<meta property="og:title" content="TensorFlow (二) - TensorFlow iOS Examples">
+<meta property="og:url" content="http://yoursite.com/2017/03/19/TensorFlow-二-TensorFlow-iOS-Examples/index.html">
 <meta property="og:site_name" content="melody5417">
-<meta property="og:description" content="Hexo + Github 搭建个人博客最近工作遇到了一些挑战，不是来源于技术，但是根源还是自己的能力不能被他人认可。遂下定决心开始有规划，有持续性地总结和记录。第一步就从搭建这个博客开始～
-准备工作搭建博客主要分为以下步骤，其中 accessory 是可选的。
+<meta property="og:description" content="TensorFlow (二) - TensorFlow iOS ExamplesBuild编译可参考 TF 的 ios_examples 的 ReadMe 。
 
-Github
-Hexo
-配置Hexo
-发布博客
-Accessory(optional)
+升级 Xcode 到 7.3 版本及更高
+安装命令行工具。
 
-Github
-注册Github账号
-建立Pu">
-<meta property="og:updated_time" content="2017-03-19T05:29:36.000Z">
+1$ xcode-select --install
+
+安装 Homebrew, automake, libtool
+
+123$ /usr/bin/ruby -e &amp;quot;$">
+<meta property="og:updated_time" content="2017-03-19T11:03:33.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo + Github 搭建个人博客">
-<meta name="twitter:description" content="Hexo + Github 搭建个人博客最近工作遇到了一些挑战，不是来源于技术，但是根源还是自己的能力不能被他人认可。遂下定决心开始有规划，有持续性地总结和记录。第一步就从搭建这个博客开始～
-准备工作搭建博客主要分为以下步骤，其中 accessory 是可选的。
+<meta name="twitter:title" content="TensorFlow (二) - TensorFlow iOS Examples">
+<meta name="twitter:description" content="TensorFlow (二) - TensorFlow iOS ExamplesBuild编译可参考 TF 的 ios_examples 的 ReadMe 。
 
-Github
-Hexo
-配置Hexo
-发布博客
-Accessory(optional)
+升级 Xcode 到 7.3 版本及更高
+安装命令行工具。
 
-Github
-注册Github账号
-建立Pu">
+1$ xcode-select --install
+
+安装 Homebrew, automake, libtool
+
+123$ /usr/bin/ruby -e &amp;quot;$">
 
 
 
@@ -157,13 +151,13 @@ Github
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/03/16/Hexo-Github-搭建个人博客/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/03/19/TensorFlow-二-TensorFlow-iOS-Examples/"/>
 
 
 
 
 
-  <title> Hexo + Github 搭建个人博客 | melody5417 </title>
+  <title> TensorFlow (二) - TensorFlow iOS Examples | melody5417 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -282,7 +276,7 @@ Github
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/Hexo-Github-搭建个人博客/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/19/TensorFlow-二-TensorFlow-iOS-Examples/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="melody5417">
@@ -303,7 +297,7 @@ Github
             
             
               
-                Hexo + Github 搭建个人博客
+                TensorFlow (二) - TensorFlow iOS Examples
               
             
           </h1>
@@ -318,8 +312,8 @@ Github
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-16T21:04:45+08:00">
-                2017-03-16
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-19T19:02:48+08:00">
+                2017-03-19
               </time>
             
 
@@ -337,8 +331,8 @@ Github
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/03/16/Hexo-Github-搭建个人博客/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/16/Hexo-Github-搭建个人博客/" itemprop="commentCount"></span>
+                <a href="/2017/03/19/TensorFlow-二-TensorFlow-iOS-Examples/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/19/TensorFlow-二-TensorFlow-iOS-Examples/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -364,44 +358,25 @@ Github
       
 
       
-        <h1 id="Hexo-Github-搭建个人博客"><a href="#Hexo-Github-搭建个人博客" class="headerlink" title="Hexo + Github 搭建个人博客"></a>Hexo + Github 搭建个人博客</h1><p>最近工作遇到了一些挑战，不是来源于技术，但是根源还是自己的能力不能被他人认可。遂下定决心开始有规划，有持续性地总结和记录。第一步就从搭建这个博客开始～</p>
-<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>搭建博客主要分为以下步骤，其中 accessory 是可选的。</p>
+        <h1 id="TensorFlow-二-TensorFlow-iOS-Examples"><a href="#TensorFlow-二-TensorFlow-iOS-Examples" class="headerlink" title="TensorFlow (二) - TensorFlow iOS Examples"></a>TensorFlow (二) - TensorFlow iOS Examples</h1><h2 id="Build"><a href="#Build" class="headerlink" title="Build"></a>Build</h2><p>编译可参考 TF 的 ios_examples 的 <a href="https://github.com/tensorflow/tensorflow/blob/master/tensorflow/contrib/ios_examples/README.md" target="_blank" rel="external">ReadMe</a> 。</p>
 <ul>
-<li>Github</li>
-<li>Hexo</li>
-<li>配置Hexo</li>
-<li>发布博客</li>
-<li>Accessory(optional)</li>
+<li>升级 Xcode 到 7.3 版本及更高</li>
+<li>安装命令行工具。</li>
 </ul>
-<h3 id="Github"><a href="#Github" class="headerlink" title="Github"></a>Github</h3><ol>
-<li>注册Github账号</li>
-<li>建立Public Repo，名称为 your-github-name.github.io（your-github-name 为你github的名称）。</li>
-<li>配置SSH-Key，本步骤可选。</li>
-</ol>
-<h3 id="Hexo"><a href="#Hexo" class="headerlink" title="Hexo"></a>Hexo</h3><ol>
-<li><p>安装 Node.js<br>直接到<a href="https://nodejs.org/en/" target="_blank" rel="external">Node.js 官网</a>下载最新版本即可。 或者通过 Homebrew 安装。<br>若想卸载旧版本的Node.js，可运行以下命令。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ brew uninstall nodejs #通过brew安装</div><div class="line">$ sudo rm -rf /usr/local/&#123;bin/&#123;node,npm&#125;,lib/node_modules/npm,lib/node,share/man/*/node.*&#125; #官网下载pkg安装包</div></pre></td></tr></table></figure>
-</li>
-<li><p>安装 Hexo</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install -g hexo-cli</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<h3 id="配置Hexo"><a href="#配置Hexo" class="headerlink" title="配置Hexo"></a>配置Hexo</h3><p>本地初始化博客文件夹，例：~/Blog</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ cd ~/Blog</div><div class="line">$ hexo init</div><div class="line">$ npm install</div></pre></td></tr></table></figure>
-<p>修改站点配置文件 ~/Blog/_config.yml， 关联Github信息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">title: 博客名</div><div class="line">subtitle: 博客副标题</div><div class="line">description: </div><div class="line">author: 作者</div><div class="line">language: zh-Hans</div><div class="line">timezone: Asia/Shanghai</div><div class="line"></div><div class="line">deploy:</div><div class="line">type: git</div><div class="line">repo: https://github.com/your-github-name/your-github-name.github.io.git</div><div class="line">branch: master</div></pre></td></tr></table></figure>
-<p>注意：每一项的“:”后面都要保留一个空格，deploy部分的参数前面保留两个空格。</p>
-<h3 id="发布博客"><a href="#发布博客" class="headerlink" title="发布博客"></a>发布博客</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server #本地发布</div></pre></td></tr></table></figure>
-<p><a href="http://localhost:4000/" target="_blank" rel="external">http://localhost:4000/</a> 可看到搭建好的博客，确认前面操作是否成功</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ npm install hexo-deployer-git --save</div><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>此时可以在Github上对应的Repo看见本地 ~/Blog/public 文件的内容，打开博客主页 your_github_name.github.io 即可看到搭建的博客的主页啦。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ hexo new &quot;first page test&quot;</div><div class="line">$ hexo generate</div><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>以上命令即可创建一篇博文并提交到Git上，~/Blog/Source下存储每篇博文的 .md 文件。删除该 .md 文件即可删除对应博文。再次运行以下命令即可生成静态网页并发布。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>若刷新博客时发现问题，则可运行以下命令清理已生成的静态网页。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo clean</div></pre></td></tr></table></figure>
-<h3 id="Accessory"><a href="#Accessory" class="headerlink" title="Accessory"></a>Accessory</h3><p>Hexo可以选择多种主题，集成评论，数据统计和搜索等第三方功能。推荐一个经典主题：<a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="external">Next</a>。其配套的相关文档详细介绍了集成第三方服务的步骤。</p>
-<h2 id="Hack-On"><a href="#Hack-On" class="headerlink" title="Hack On"></a>Hack On</h2><p>用这样一句经典的话结束第一篇博文，望自己 Hack On～</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ xcode-select --install</div></pre></td></tr></table></figure>
+<ul>
+<li>安装 Homebrew, automake, libtool</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ /usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</div><div class="line">$ brew install automake</div><div class="line">$ brew install libtool</div></pre></td></tr></table></figure>
+<ul>
+<li>执行 tensorflow/contrib/makefile 路径下的 build_all_ios.sh 脚本，编译大概一个半小时。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ cd tensorflow/contrib/makefile</div><div class="line">$ ./build_all_ios.sh</div></pre></td></tr></table></figure>
+<p>执行成功后在 makefile/gen/lib 下生成 libtensorflow-core.a 库。</p>
+<h2 id="Run-Examples"><a href="#Run-Examples" class="headerlink" title="Run Examples"></a>Run Examples</h2><p>此时还差一步即可运行 TF 提供的Demo：添加数据模型。</p>
+<p>执行下面命令，或者可以手动下载 <a href="https://storage.googleapis.com/download.tensorflow.org/models/inception5h.zip" target="_blank" rel="external">Inception</a>。然后copy到相应路径下。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$ mkdir -p ~/graphs</div><div class="line">$ curl -o ~/graphs/inception5h.zip \</div><div class="line">https://storage.googleapis.com/download.tensorflow.org/models/inception5h.zip \</div><div class="line">&amp;&amp; unzip ~/graphs/inception5h.zip -d ~/graphs/inception5h</div><div class="line">$ cp ~/graphs/inception5h/* tensorflow/contrib/ios_examples/benchmark/data/</div><div class="line">$ cp ~/graphs/inception5h/* tensorflow/contrib/ios_examples/camera/data/</div><div class="line">$ cp ~/graphs/inception5h/* tensorflow/contrib/ios_examples/simple/data/</div></pre></td></tr></table></figure>
+<p>现在可以运行三个实例工程啦～</p>
 
       
     </div>
@@ -431,11 +406,9 @@ Github
       
         <div class="post-tags">
           
-            <a href="/tags/Hexo/" rel="tag"># Hexo</a>
+            <a href="/tags/TensorFlow/" rel="tag"># TensorFlow</a>
           
-            <a href="/tags/Github/" rel="tag"># Github</a>
-          
-            <a href="/tags/博客/" rel="tag"># 博客</a>
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
           
         </div>
       
@@ -448,15 +421,15 @@ Github
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2017/03/16/TensorFlow-一/" rel="next" title="TensorFlow (一)">
+                <i class="fa fa-chevron-left"></i> TensorFlow (一)
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/03/16/TensorFlow-一/" rel="prev" title="TensorFlow (一)">
-                TensorFlow (一) <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -482,8 +455,8 @@ Github
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/03/16/Hexo-Github-搭建个人博客/"
-           data-title="Hexo + Github 搭建个人博客" data-url="http://yoursite.com/2017/03/16/Hexo-Github-搭建个人博客/">
+      <div class="ds-thread" data-thread-key="2017/03/19/TensorFlow-二-TensorFlow-iOS-Examples/"
+           data-title="TensorFlow (二) - TensorFlow iOS Examples" data-url="http://yoursite.com/2017/03/19/TensorFlow-二-TensorFlow-iOS-Examples/">
       </div>
     
   </div>
@@ -580,7 +553,7 @@ Github
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Hexo-Github-搭建个人博客"><span class="nav-number">1.</span> <span class="nav-text">Hexo + Github 搭建个人博客</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#准备工作"><span class="nav-number">1.1.</span> <span class="nav-text">准备工作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Github"><span class="nav-number">1.1.1.</span> <span class="nav-text">Github</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hexo"><span class="nav-number">1.1.2.</span> <span class="nav-text">Hexo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置Hexo"><span class="nav-number">1.1.3.</span> <span class="nav-text">配置Hexo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#发布博客"><span class="nav-number">1.1.4.</span> <span class="nav-text">发布博客</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Accessory"><span class="nav-number">1.1.5.</span> <span class="nav-text">Accessory</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hack-On"><span class="nav-number">1.2.</span> <span class="nav-text">Hack On</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#TensorFlow-二-TensorFlow-iOS-Examples"><span class="nav-number">1.</span> <span class="nav-text">TensorFlow (二) - TensorFlow iOS Examples</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Build"><span class="nav-number">1.1.</span> <span class="nav-text">Build</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Run-Examples"><span class="nav-number">1.2.</span> <span class="nav-text">Run Examples</span></a></li></ol></li></ol></div>
             
 
           </div>
