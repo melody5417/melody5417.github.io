@@ -247,6 +247,167 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/16/Create-Mac-memory-pressure-observer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="melody5417">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="melody5417">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/05/16/Create-Mac-memory-pressure-observer/" itemprop="url">
+                  Create Mac memory pressure observer
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-16T12:01:52+08:00">
+                2017-05-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/05/16/Create-Mac-memory-pressure-observer/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/16/Create-Mac-memory-pressure-observer/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Mac的资料真心少，先来看看iOS是怎么做的。</p>
+<h2 id="memory-pressure-observer-on-iOS"><a href="#memory-pressure-observer-on-iOS" class="headerlink" title="memory pressure observer on iOS"></a>memory pressure observer on iOS</h2><h3 id="how-to-observe"><a href="#how-to-observe" class="headerlink" title="how to observe"></a>how to observe</h3><ul>
+<li>可以监听 UIApplicationDidReceiveMemoryWarningNotification 通知。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[[NSNotificationCenter defaultCenter] addObserver:self</div><div class="line">selector:@selector(XXX)</div><div class="line">name:UIApplicationDidReceiveMemoryWarningNotification </div><div class="line">object:nil];</div></pre></td></tr></table></figure>
+<ul>
+<li>实现 UIViewController 自身的方法didReceiveMemoryWarning，该方法在 App 接收到 memory warning 会被调用，可以在方法中释放当前不再使用的资源。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">- (void)didReceiveMemoryWarning;</div></pre></td></tr></table></figure>
+<h3 id="how-to-mock"><a href="#how-to-mock" class="headerlink" title="how to mock"></a>how to mock</h3><ul>
+<li><p>模拟器菜单<br>hardware -&gt; simulate memory warning</p>
+</li>
+<li><p>模拟发通知 UISimulatedMemoryWarningNotification</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), (CFStringRef)@&quot;UISimulatedMemoryWarningNotification&quot;, NULL, NULL, true);</div></pre></td></tr></table></figure>
+<ul>
+<li>私有 API</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[[UIApplication sharedApplication] performSelector:@selector(_performMemoryWarning)];</div></pre></td></tr></table></figure>
+<h2 id="memory-pressure-observer-on-Mac"><a href="#memory-pressure-observer-on-Mac" class="headerlink" title="memory pressure observer on Mac"></a>memory pressure observer on Mac</h2><p>终于要切入正题，按照iOS调研的节奏开始查资料～</p>
+<h3 id="how-to-observe-1"><a href="#how-to-observe-1" class="headerlink" title="how to observe"></a>how to observe</h3><p>以下来自 <a href="https://github.com/mhuusko5/M5ApplicationMemoryWarning" target="_blank" rel="external">Github</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">static dispatch_source_t source = nil;</div><div class="line">source = dispatch_source_create(DISPATCH_SOURCE_TYPE_MEMORYPRESSURE, 0,  DISPATCH_MEMORYPRESSURE_WARN | DISPATCH_MEMORYPRESSURE_CRITICAL, dispatch_get_main_queue());</div><div class="line"></div><div class="line">dispatch_source_set_event_handler(source, ^&#123;</div><div class="line">dispatch_source_memorypressure_flags_t pressureLevel = dispatch_source_get_data(source);</div><div class="line">[NSNotificationCenter.defaultCenter postNotificationName:DidReceiveMemoryWarningNotification</div><div class="line">object:nil</div><div class="line">userInfo:@&#123; @&quot;pressure&quot;: @(pressureLevel) &#125;];</div><div class="line">&#125;);</div><div class="line"></div><div class="line">dispatch_resume(source);</div></pre></td></tr></table></figure>
+<p>其中 dispatch_source_create 的解释：</p>
+<p>Creates a new dispatch source to monitor low-level system objects and automatically submit a handler block to a dispatch queue in response to events.</p>
+<p>可以监控的 system objects 很多，包括 Timer，Signal， MemoryPressure 等。</p>
+<p>其中 memoryPressure level 的定义如下： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">#define DISPATCH_MEMORYPRESSURE_NORMAL		0x01</div><div class="line">#define DISPATCH_MEMORYPRESSURE_WARN		0x02</div><div class="line">#define DISPATCH_MEMORYPRESSURE_CRITICAL	0x04</div></pre></td></tr></table></figure>
+<h3 id="how-to-mock-1"><a href="#how-to-mock-1" class="headerlink" title="how to mock"></a>how to mock</h3><p>目前找到的<a href="https://bugs.chromium.org/p/chromium/issues/detail?id=463604" target="_blank" rel="external">方法</a>,<br>在 terminal 输入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo memory_pressure -S -l critical -s 15</div></pre></td></tr></table></figure>
+<p>-S causes the system to simulate the specified memory pressure (warn | critical), and -s tells how many seconds to hold that simulated pressure.</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/18/配置-gitignore/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -365,14 +526,14 @@
 <h2 id="配置-Git-Config"><a href="#配置-Git-Config" class="headerlink" title="配置 Git Config"></a>配置 Git Config</h2><p>Git Config实际上是一个文件，位于用户根目录，名称是 .gitconfig。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ touch .gitignore_global</div><div class="line">// 编辑 .gitignore_global 文件，添加以下代码，引入.gitignore_global文件</div><div class="line">[core]  </div><div class="line">excludesfile = /Users/reon/.gitignore_global</div></pre></td></tr></table></figure>
 <p>把从 GitHub 上下载的自定义修改后的 .gitignore 文件 copy 到该路径即可。</p>
-<h2 id="添加-gitignore-后不生效怎么办"><a href="#添加-gitignore-后不生效怎么办" class="headerlink" title="添加 .gitignore 后不生效怎么办"></a>添加 .gitignore 后不生效怎么办</h2><ol>
+<h2 id="添加-gitignore-后不生效怎么办"><a href="#添加-gitignore-后不生效怎么办" class="headerlink" title="添加 .gitignore 后不生效怎么办"></a>添加 .gitignore 后不生效怎么办</h2><ul>
 <li>you must pay attention to the global gitignore file which sometimes may influence your gitignore.</li>
 <li>When you add something into .gitignore file。First commit your current changes, or you will lose them.</li>
-</ol>
+</ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ git rm -r --cached .</div><div class="line">$ git add .</div><div class="line">$ git commit -m &quot;fixed untracked files&quot;</div></pre></td></tr></table></figure>
-<ol>
+<ul>
 <li>When you remove something from .gitignore file.The above steps will not work for you. First commit your current changes, or you will lose them.</li>
-</ol>
+</ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">git add -f &quot;filetype&quot;</div><div class="line">git commit -m &quot;Refresh removing filetype from .gitignore file.&quot;</div><div class="line">// the &quot;filetype&quot; means the file or filetype you want to remove from the .gitignore file. </div><div class="line">// You want to make the filetype be tracked again.</div></pre></td></tr></table></figure>
 
           
@@ -1270,7 +1431,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1283,7 +1444,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
