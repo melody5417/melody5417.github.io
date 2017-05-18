@@ -87,20 +87,26 @@
 
 
 
-<meta name="description" content="新项目做一个背景渐变，同时图片缩放的动画，在设计老板的电脑上卡的厉害，所以展开了一系列对动画的研究。先上脑图：
-占坑！">
+<meta name="description" content="新项目做一个背景渐变，同时图片缩放的动画，在设计老板的电脑上卡的厉害，所以展开了一系列对动画的研究。
+先上脑图：
+  从图中可以看出是不推荐使用 NSAnimationContext，它是在主线程不断调用 setFrame: 和 setFrameSize: 等实现的移动和缩放动画，显然效率低下。同时我的图片又是采用离屏渲染的，所以性能更加不好。
+  经过这几篇文章的学习，最终采用以下步骤优化：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="OS X animations">
 <meta property="og:url" content="http://yoursite.com/2017/05/17/OS X animations/index.html">
 <meta property="og:site_name" content="melody5417">
-<meta property="og:description" content="新项目做一个背景渐变，同时图片缩放的动画，在设计老板的电脑上卡的厉害，所以展开了一系列对动画的研究。先上脑图：
-占坑！">
+<meta property="og:description" content="新项目做一个背景渐变，同时图片缩放的动画，在设计老板的电脑上卡的厉害，所以展开了一系列对动画的研究。
+先上脑图：
+  从图中可以看出是不推荐使用 NSAnimationContext，它是在主线程不断调用 setFrame: 和 setFrameSize: 等实现的移动和缩放动画，显然效率低下。同时我的图片又是采用离屏渲染的，所以性能更加不好。
+  经过这几篇文章的学习，最终采用以下步骤优化：">
 <meta property="og:image" content="https://raw.githubusercontent.com/melody5417/blogResources/master/OS%20X%20animations.png">
-<meta property="og:updated_time" content="2017-05-17T14:54:36.000Z">
+<meta property="og:updated_time" content="2017-05-18T12:09:23.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="OS X animations">
-<meta name="twitter:description" content="新项目做一个背景渐变，同时图片缩放的动画，在设计老板的电脑上卡的厉害，所以展开了一系列对动画的研究。先上脑图：
-占坑！">
+<meta name="twitter:description" content="新项目做一个背景渐变，同时图片缩放的动画，在设计老板的电脑上卡的厉害，所以展开了一系列对动画的研究。
+先上脑图：
+  从图中可以看出是不推荐使用 NSAnimationContext，它是在主线程不断调用 setFrame: 和 setFrameSize: 等实现的移动和缩放动画，显然效率低下。同时我的图片又是采用离屏渲染的，所以性能更加不好。
+  经过这几篇文章的学习，最终采用以下步骤优化：">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/melody5417/blogResources/master/OS%20X%20animations.png">
 
 
@@ -336,8 +342,16 @@
       
 
       
-        <p>新项目做一个背景渐变，同时图片缩放的动画，在设计老板的电脑上卡的厉害，所以展开了一系列对动画的研究。<br>先上脑图：<br><img src="https://raw.githubusercontent.com/melody5417/blogResources/master/OS%20X%20animations.png" alt="脑图"></p>
-<p>占坑！</p>
+        <p>新项目做一个背景渐变，同时图片缩放的动画，在设计老板的电脑上卡的厉害，所以展开了一系列对动画的研究。</p>
+<p>先上脑图：<br><img src="https://raw.githubusercontent.com/melody5417/blogResources/master/OS%20X%20animations.png" alt="脑图"></p>
+<p>  从图中可以看出是不推荐使用 NSAnimationContext，它是在主线程不断调用 setFrame: 和 setFrameSize: 等实现的移动和缩放动画，显然效率低下。同时我的图片又是采用离屏渲染的，所以性能更加不好。</p>
+<p>  经过这几篇文章的学习，最终采用以下步骤优化：</p>
+<ol>
+<li>采用layer-based 的 CoreAnimation。</li>
+<li>优化重绘策略：NSView 的property 设置为 NSViewLayerContentsRedrawOnSetNeedsDisplay</li>
+<li>图片展示不再用 NSImageView， 直接设置为 layer 的 contents。</li>
+</ol>
+<p>最终实现效果老板终于满意啦，做的 <a href="https://github.com/melody5417/Animation/tree/master" target="_blank" rel="external">Demo</a>。</p>
 
       
     </div>
