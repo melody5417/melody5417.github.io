@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="OSX,Animation,Layer," />
+  <meta name="keywords" content="安全," />
 
 
 
@@ -87,27 +87,18 @@
 
 
 
-<meta name="description" content="新项目做一个背景渐变，同时图片缩放的动画，在设计老板的电脑上卡的厉害，所以展开了一系列对动画的研究。
-先上脑图：
-  从图中可以看出是不推荐使用 NSAnimationContext，它是在主线程不断调用 setFrame: 和 setFrameSize: 等实现的移动和缩放动画，显然效率低下。同时我的图片又是采用离屏渲染的，所以性能更加不好。
-  经过这几篇文章的学习，最终采用以下步骤优化：">
+<meta name="description" content="昨天听了「程序安全开发」这门课，对今后项目开发有很大的警示作用，这里先做个脑图整理，之后慢慢补充。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="OS X animations">
-<meta property="og:url" content="http://yoursite.com/2017/05/17/OS X animations/index.html">
+<meta property="og:title" content="程序安全开发">
+<meta property="og:url" content="http://yoursite.com/2017/05/23/程序安全开发/index.html">
 <meta property="og:site_name" content="melody5417">
-<meta property="og:description" content="新项目做一个背景渐变，同时图片缩放的动画，在设计老板的电脑上卡的厉害，所以展开了一系列对动画的研究。
-先上脑图：
-  从图中可以看出是不推荐使用 NSAnimationContext，它是在主线程不断调用 setFrame: 和 setFrameSize: 等实现的移动和缩放动画，显然效率低下。同时我的图片又是采用离屏渲染的，所以性能更加不好。
-  经过这几篇文章的学习，最终采用以下步骤优化：">
-<meta property="og:image" content="https://raw.githubusercontent.com/melody5417/blogResources/master/OS%20X%20animations.png">
-<meta property="og:updated_time" content="2017-05-18T12:09:23.000Z">
+<meta property="og:description" content="昨天听了「程序安全开发」这门课，对今后项目开发有很大的警示作用，这里先做个脑图整理，之后慢慢补充。">
+<meta property="og:image" content="https://raw.githubusercontent.com/melody5417/blogResources/master/程序安全开发.png">
+<meta property="og:updated_time" content="2017-05-23T01:52:55.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="OS X animations">
-<meta name="twitter:description" content="新项目做一个背景渐变，同时图片缩放的动画，在设计老板的电脑上卡的厉害，所以展开了一系列对动画的研究。
-先上脑图：
-  从图中可以看出是不推荐使用 NSAnimationContext，它是在主线程不断调用 setFrame: 和 setFrameSize: 等实现的移动和缩放动画，显然效率低下。同时我的图片又是采用离屏渲染的，所以性能更加不好。
-  经过这几篇文章的学习，最终采用以下步骤优化：">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/melody5417/blogResources/master/OS%20X%20animations.png">
+<meta name="twitter:title" content="程序安全开发">
+<meta name="twitter:description" content="昨天听了「程序安全开发」这门课，对今后项目开发有很大的警示作用，这里先做个脑图整理，之后慢慢补充。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/melody5417/blogResources/master/程序安全开发.png">
 
 
 
@@ -135,13 +126,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/05/17/OS X animations/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/05/23/程序安全开发/"/>
 
 
 
 
 
-  <title> OS X animations | melody5417 </title>
+  <title> 程序安全开发 | melody5417 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -260,7 +251,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/17/OS X animations/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/23/程序安全开发/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="melody5417">
@@ -281,7 +272,7 @@
             
             
               
-                OS X animations
+                程序安全开发
               
             
           </h1>
@@ -296,8 +287,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-17T18:44:52+08:00">
-                2017-05-17
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-23T09:48:16+08:00">
+                2017-05-23
               </time>
             
 
@@ -315,8 +306,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/05/17/OS X animations/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/17/OS X animations/" itemprop="commentCount"></span>
+                <a href="/2017/05/23/程序安全开发/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/23/程序安全开发/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -342,16 +333,8 @@
       
 
       
-        <p>新项目做一个背景渐变，同时图片缩放的动画，在设计老板的电脑上卡的厉害，所以展开了一系列对动画的研究。</p>
-<p>先上脑图：<br><img src="https://raw.githubusercontent.com/melody5417/blogResources/master/OS%20X%20animations.png" alt="脑图"></p>
-<p>  从图中可以看出是不推荐使用 NSAnimationContext，它是在主线程不断调用 setFrame: 和 setFrameSize: 等实现的移动和缩放动画，显然效率低下。同时我的图片又是采用离屏渲染的，所以性能更加不好。</p>
-<p>  经过这几篇文章的学习，最终采用以下步骤优化：</p>
-<ol>
-<li>采用layer-based 的 CoreAnimation。</li>
-<li>优化重绘策略：NSView 的property 设置为 NSViewLayerContentsRedrawOnSetNeedsDisplay</li>
-<li>图片展示不再用 NSImageView， 直接设置为 layer 的 contents。</li>
-</ol>
-<p>最终实现效果老板终于满意啦，做的 <a href="https://github.com/melody5417/Animation/tree/master" target="_blank" rel="external">Demo</a>。</p>
+        <p>昨天听了「程序安全开发」这门课，对今后项目开发有很大的警示作用，这里先做个脑图整理，之后慢慢补充。</p>
+<p><img src="https://raw.githubusercontent.com/melody5417/blogResources/master/程序安全开发.png" alt="我是脑图"></p>
 
       
     </div>
@@ -381,11 +364,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/OSX/" rel="tag"># OSX</a>
-          
-            <a href="/tags/Animation/" rel="tag"># Animation</a>
-          
-            <a href="/tags/Layer/" rel="tag"># Layer</a>
+            <a href="/tags/安全/" rel="tag"># 安全</a>
           
         </div>
       
@@ -398,8 +377,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/05/16/Create-Mac-memory-pressure-observer/" rel="next" title="Create Mac memory pressure observer">
-                <i class="fa fa-chevron-left"></i> Create Mac memory pressure observer
+              <a href="/2017/05/17/OS X animations/" rel="next" title="OS X animations">
+                <i class="fa fa-chevron-left"></i> OS X animations
               </a>
             
           </div>
@@ -407,10 +386,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/05/23/程序安全开发/" rel="prev" title="程序安全开发">
-                程序安全开发 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -436,8 +411,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/05/17/OS X animations/"
-           data-title="OS X animations" data-url="http://yoursite.com/2017/05/17/OS X animations/">
+      <div class="ds-thread" data-thread-key="2017/05/23/程序安全开发/"
+           data-title="程序安全开发" data-url="http://yoursite.com/2017/05/23/程序安全开发/">
       </div>
     
   </div>
