@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="iOS,gesture,touch," />
 
 
 
@@ -87,12 +87,21 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="melody5417">
-<meta property="og:url" content="http://yoursite.com/tags/TensorFlow/index.html">
+<meta name="description" content="刚接触iOS，iOS的基于Touch的触控事件处理和mac的基于鼠标的事件处理还是有些不同。这两天看了官方文档和很多文章，将iOS触控事件处理总结了脑图和demo。(ps:发现自己没有那么多时间和耐性写一篇好长的文章，还是脑图比较适合我，纲领性的知识点总结，方便以后查找，又不需要像写文章那么多时间来整理。)
+Demo地址">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS触控事件学习">
+<meta property="og:url" content="http://yoursite.com/2017/08/03/iOS触控事件学习/index.html">
 <meta property="og:site_name" content="melody5417">
+<meta property="og:description" content="刚接触iOS，iOS的基于Touch的触控事件处理和mac的基于鼠标的事件处理还是有些不同。这两天看了官方文档和很多文章，将iOS触控事件处理总结了脑图和demo。(ps:发现自己没有那么多时间和耐性写一篇好长的文章，还是脑图比较适合我，纲领性的知识点总结，方便以后查找，又不需要像写文章那么多时间来整理。)
+Demo地址">
+<meta property="og:image" content="https://github.com/melody5417/GestureDemo/blob/master/Gestures.png">
+<meta property="og:updated_time" content="2017-08-03T02:17:07.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="melody5417">
+<meta name="twitter:title" content="iOS触控事件学习">
+<meta name="twitter:description" content="刚接触iOS，iOS的基于Touch的触控事件处理和mac的基于鼠标的事件处理还是有些不同。这两天看了官方文档和很多文章，将iOS触控事件处理总结了脑图和demo。(ps:发现自己没有那么多时间和耐性写一篇好长的文章，还是脑图比较适合我，纲领性的知识点总结，方便以后查找，又不需要像写文章那么多时间来整理。)
+Demo地址">
+<meta name="twitter:image" content="https://github.com/melody5417/GestureDemo/blob/master/Gestures.png">
 
 
 
@@ -120,13 +129,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/tags/TensorFlow/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/08/03/iOS触控事件学习/"/>
 
 
 
 
 
-  <title> 标签: TensorFlow | melody5417 </title>
+  <title> iOS触控事件学习 | melody5417 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -151,7 +160,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -235,74 +244,172 @@
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-collapse">
-    <div class="collection-title">
-      <h2 >
-        TensorFlow
-        <small>标签</small>
-      </h2>
-    </div>
-
+  <div id="posts" class="posts-expand">
     
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/03/19/TensorFlow-二-TensorFlow-iOS-Examples/" itemprop="url">
-              
-                <span itemprop="name">TensorFlow (二) - TensorFlow iOS Examples</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-03-19T19:02:48+08:00"
-              content="2017-03-19" >
-          03-19
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/03/16/TensorFlow-一/" itemprop="url">
-              
-                <span itemprop="name">TensorFlow (一)</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-03-16T21:57:36+08:00"
-              content="2017-03-16" >
-          03-16
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-    
-  </div>
 
   
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/03/iOS触控事件学习/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="melody5417">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="melody5417">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                iOS触控事件学习
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-03T10:03:52+08:00">
+                2017-08-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/08/03/iOS触控事件学习/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/08/03/iOS触控事件学习/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>刚接触iOS，iOS的基于Touch的触控事件处理和mac的基于鼠标的事件处理还是有些不同。这两天看了官方文档和很多文章，将iOS触控事件处理总结了脑图和demo。(ps:发现自己没有那么多时间和耐性写一篇好长的文章，还是脑图比较适合我，纲领性的知识点总结，方便以后查找，又不需要像写文章那么多时间来整理。)</p>
+<p><a href="https://github.com/melody5417/GestureDemo" target="_blank" rel="external">Demo地址</a></p>
+<p><img src="https://github.com/melody5417/GestureDemo/blob/master/Gestures.png" alt="脑图"></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/gesture/" rel="tag"># gesture</a>
+          
+            <a href="/tags/touch/" rel="tag"># touch</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/13/ios-OSX-crash/" rel="next" title="ios/OSX crash">
+                <i class="fa fa-chevron-left"></i> ios/OSX crash
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
           
           </div>
@@ -310,6 +417,14 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/08/03/iOS触控事件学习/"
+           data-title="iOS触控事件学习" data-url="http://yoursite.com/2017/08/03/iOS触控事件学习/">
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -495,6 +610,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 
