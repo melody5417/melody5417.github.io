@@ -247,6 +247,232 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/04/深入解析Mac-OSX-iOS操作系统-一/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="melody5417">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="melody5417">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/04/深入解析Mac-OSX-iOS操作系统-一/" itemprop="url">
+                  深入解析Mac-OSX-iOS操作系统(一)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-04T15:07:30+08:00">
+                2017-04-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/04/04/深入解析Mac-OSX-iOS操作系统-一/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/04/深入解析Mac-OSX-iOS操作系统-一/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="第一章-达尔文主义：OS-X的进化史"><a href="#第一章-达尔文主义：OS-X的进化史" class="headerlink" title="第一章 达尔文主义：OS X的进化史"></a>第一章 达尔文主义：OS X的进化史</h2><h3 id="iOS和OS-X对比"><a href="#iOS和OS-X对比" class="headerlink" title="iOS和OS X对比"></a>iOS和OS X对比</h3><ul>
+<li>iOS内核和二进制文件编译的目标架构是基于ARM的架构，而不是x86。</li>
+<li>iOS的内核源码依然闭源。</li>
+<li>iOS内核的编译稍有不同，关注的是嵌入式特性和一些新的API。</li>
+<li>iOS的系统GUI是SpringBoard，触屏应用加载器；而OS X中的GUI是Aqua，鼠标驱动，为窗口系统设计，Lion中以LaunchPad的形式移植了SpringBoard。</li>
+<li>iOS的内存管理更为严格。</li>
+<li>系统的限制更严格。</li>
+</ul>
+<h2 id="第二章-合众为一：OS-X和iOS的架构"><a href="#第二章-合众为一：OS-X和iOS的架构" class="headerlink" title="第二章 合众为一：OS X和iOS的架构"></a>第二章 合众为一：OS X和iOS的架构</h2><h3 id="2-1-OS-X架构概述"><a href="#2-1-OS-X架构概述" class="headerlink" title="2.1 OS X架构概述"></a>2.1 OS X架构概述</h3><ul>
+<li>用户体验层</li>
+<li>应用框架层</li>
+<li>核心框架层</li>
+<li>Darwin</li>
+</ul>
+<h3 id="2-2-用户体验层"><a href="#2-2-用户体验层" class="headerlink" title="2.2 用户体验层"></a>2.2 用户体验层</h3><p>提供用户界面<br>OS X用户体验层中的组件：</p>
+<ul>
+<li>Aqua</li>
+<li>Quick Look</li>
+<li>Spotlight</li>
+<li>Accessibility</li>
+</ul>
+<p>iOS的架构在用户体验层之下基本一致，但是在用户体验层很大区别。SpringBoard完全负责所有的用户界面的任务。</p>
+<h4 id="Aqua"><a href="#Aqua" class="headerlink" title="Aqua"></a>Aqua</h4><p>Aqua是OS X的GUI。主要介绍Aqua任何支持GUI的相关特性。<br>系统的第一个用户态进程launchd负责启动GUI。支持GUI工作的主进程是WindowServer，且WindowServer是Core Graphics框架的一部分，而Core Graphics位于另一个框架Application Services中。因此，WindowServer的路径是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/System/Libary/Frameworks/ApplicationServices.framework/Frameworks/CoreGraphic.framework/Resources/WindowServer</div></pre></td></tr></table></figure>
+<p>WindowServer启动时传入 -daemon 开关参数。WindowServer的代码实际上不完成任何实际的工作，所有的工作都是CoreGraphics框架中的CGXServer函数完成的。</p>
+<p>CGXServer会检查自己是否以后台服务程序或者以主控制台getty的方式运行。然后在后台fork出自己的子进程。当子进程准备好之后，LoginWindow进程（同样由launchd启动的）启动交互式登录过程。</p>
+<h4 id="QuickLook"><a href="#QuickLook" class="headerlink" title="QuickLook"></a>QuickLook</h4><p>QuickLook允许在Finder中快速预览多种不同类型的文件，不需要双击鼠标打开文件，只需要按下空格即可。</p>
+<p>QuickLook采用的是可扩展的架构，使得大部分工作是由插件完成。这些插件是后缀为 .qlgenerator 的bundle，只需要将这些bundle文件拖放到QuickLook目录（系统范围的QuickLook目录为／system／Library／QuickLook，针对个人的胃～／Libaray／QuickLook）中即可完成插件的安装。</p>
+<p>插件不是独立可执行程序，没有传统的main()入口点，而是实现了QuickLookGeneratorPluginFactory入口点。另外有一个配置文件 负责将插件和对应的文件类型关联起来。文件类型通过UIT表示，即逆DNS表示法。</p>
+<p>quicklookd是系统的”QuickLook服务器”，是通过以下文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/System/Library/LaunchAgents/com.apple.quicklook.plist</div></pre></td></tr></table></figure>
+<p>在登录时启动的。这个后台服务程序本身在QuickLook框架中，而且不带GUI。</p>
+<p>qlmanage命令的作用是维护插件，并且控制后台服务程序。</p>
+<h4 id="Spotlight"><a href="#Spotlight" class="headerlink" title="Spotlight"></a>Spotlight</h4><p>spotlight背后的核心是一个索引服务器mds，mds在MetaData框架中，而这个框架是系统核心服务的一部分</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">／System／Library/CoreServices.frmework/Frameworks/Metadata.framework/Suppot/mds</div></pre></td></tr></table></figure>
+<p>mds是一个没有GUI的后台服务程序。每当有任何文件操作（创建／修改／删除）发生时，内核会发送通知給mds，这个通知机制称为fsevents。</p>
+<p>当mds收到通知时，mds会通过mdworker进程将各种元数据信息导入数据库。mdworker进程可以加载一个具体的Spotlight Importer从文件中提取元数据信息。</p>
+<p>导入器路径（系统：/system/Library/Spotlight   用户：/Library/Spotlight），和QuickLook类似，这些importer是实现了固定API的插件。</p>
+<h3 id="2-3-Darwin-UNIX核心"><a href="#2-3-Darwin-UNIX核心" class="headerlink" title="2.3 Darwin-UNIX核心"></a>2.3 Darwin-UNIX核心</h3><p>OS X中的Darwin是一个完全成熟的UNIX实现。</p>
+<h4 id="Shell"><a href="#Shell" class="headerlink" title="Shell"></a>Shell</h4><p>Terminal默认打开的shell是/bin/bash</p>
+<p>OS X和iOS中的命令行工具还可以通过telnet和SSH远程访问。OS X和iOS默认禁止，OS X打开方式如下，iOS需要jailbreak。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo bash</div><div class="line">/System/Library/LaunchDaemons/telnet.plist</div><div class="line">/System/Library/LaunchDaemons/ssh.plist</div><div class="line">key:Disabled -&gt;NO</div></pre></td></tr></table></figure>
+<h4 id="文件系统"><a href="#文件系统" class="headerlink" title="文件系统"></a>文件系统</h4><p>OS X和iOS采用的都是HFS+的文件系统，HFS+总是保存大小写的区别。<br>iOS采用HFSX，默认对大小写敏感。OS X则未采用。</p>
+<h3 id="UNIX的系统目录"><a href="#UNIX的系统目录" class="headerlink" title="UNIX的系统目录"></a>UNIX的系统目录</h3><p>OS X是符合UNIX标准的系统，具有标准的UNIX目录结构：</p>
+<ul>
+<li>/bin：UNIX中的二进制程序，常用UNIX命令所在。</li>
+<li>/sbin：系统程序</li>
+<li>／usr: User目录。第三方的软件安装在这里。目录中包含 bin／sbin／lib。lib用于存放共享的目标文件。</li>
+<li>／etc：系统配置文件。</li>
+<li>／dev：BSD设备文件。</li>
+<li>／tmp：OS X上指向／private／tmp，系统上唯一所有人都有可写权限的目录。</li>
+<li>／var：OS X上指向／private／var，存储杂项文件，日志，打印队列，邮件存储等。</li>
+</ul>
+<h4 id="OS-X特有的目录"><a href="#OS-X特有的目录" class="headerlink" title="OS X特有的目录"></a>OS X特有的目录</h4><ul>
+<li>／Applications：系统中所有应用程序的默认目录</li>
+<li>／Developer：所有开发者工具的默认安装位置</li>
+<li>/Libary: 系统应用的数据文件／帮助和文档等数据都放在这个目录。</li>
+<li>／Network：用于邻居节点发现和访问的虚拟目录。</li>
+<li>／System：系统文件目录。其中只包含一个Library子目录，几乎包含了系统中的所有重要的组件。</li>
+<li>／Users：所有用户的主目录所在的目录。每一个用户在这里都会创建一个自己的目录。</li>
+<li>／Volumes：可移动媒体和网络文件系统的mount点所在目录</li>
+<li>／Cores：如果启动了core dump，那么合格目录保存core dump文件。第四章详细讨论。</li>
+</ul>
+<h4 id="iOS文件系统的区别"><a href="#iOS文件系统的区别" class="headerlink" title="iOS文件系统的区别"></a>iOS文件系统的区别</h4><ul>
+<li>HFSX大小写敏感，且文件系统是部分加密的。<br>// TODO 这里后续有了更多了解再补充</li>
+</ul>
+<h3 id="bundle"><a href="#bundle" class="headerlink" title="bundle"></a>bundle</h3><p>每一个bundle都带有相同的目录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">Contents/</div><div class="line">CodeResources/</div><div class="line">Info.plist</div><div class="line">MacOS/  包中的二进制文件内容</div><div class="line">PkgInfo    包的8字节标识符</div><div class="line">Resources/</div><div class="line">Version.plist</div><div class="line">CodeSignature/</div></pre></td></tr></table></figure>
+<h3 id="应用程序和App"><a href="#应用程序和App" class="headerlink" title="应用程序和App"></a>应用程序和App</h3><p>OS X对应用程序的处理方式是较为整洁地包装在bundle中，应用程序的bundle包含运行这个应用程序所需要的大部分文件。</p>
+<p>在iOS中，app的结构没有这么整洁。iOS会区分苹果提供的默认的应用程序（／Application目录下），越狱情况和通过App store购买的app（／var／mobile／Application目录下）。<br>通过Store购买的app安装在一个表示128位GUID的目录下。</p>
+<p>当iOS app在运行时，会被chroot到自己的应用目录，即名字为GUID的目录，应用程序将自己GUID名字的目录当作根目录，因此／tmp指向的是GUID／tmp。</p>
+<p>从store购买应用时，应用以.ipa文件的形式打包，这种文件实际上就是一个.zip文件，这个文件在Payload／目录下压缩了应用程序的目录内容。</p>
+<h4 id="info-plist"><a href="#info-plist" class="headerlink" title="info.plist"></a>info.plist</h4><p>一个标准的info。plist文件包含以下条目：</p>
+<ul>
+<li>CFBundleDevelopmentRegion:默认语言</li>
+<li>CFBundledisplayName:显示給用户的bundle名称</li>
+<li>CFBundleDocumentType：bundle关联的文件类型。是一个字典，value指定了bundle能够处理的文件扩展名。还指定了关联文档显示的图标。</li>
+<li>CFBundleExecutable：实际的可执行文件，位于Contents／MacOS目录。</li>
+<li>CFBundlePackageType：表示一个4字母的代码，例如APPL = Application，FRMW = Framework， BNDL = Bundle。</li>
+<li>CFBundleURLTypes：这个bundle关联的URL。是一个字典，value指定了这个bundle处理的URL scheme以及处理方式。</li>
+</ul>
+<h4 id="CodeResources"><a href="#CodeResources" class="headerlink" title="CodeResources"></a>CodeResources</h4><p>CodeResources实际上是一个指向_CodeSignature/CodeResources的链接。这个文件是一个属性列表，包含bundle中所有其他文件的列表。这个属性列表只有一项files，是字典。key对应文件名，value是Base64格式的散列值。<br>CodeResources文件可以用与判断一个应用程序是否完好无损，能够防止不小心修改或损坏资源文件。</p>
+<h3 id="框架"><a href="#框架" class="headerlink" title="框架"></a>框架</h3><p>framework bundle和app bundle的不同：内建的版本化机制：框架可以包含多个版本的代码，不同版本并排放在不同的子目录中。</p>
+<h4 id="查找框架"><a href="#查找框架" class="headerlink" title="查找框架"></a>查找框架</h4><ul>
+<li>／System/Libary/Frameworks 包含苹果提供的框架</li>
+<li>/network/libary/frameworks </li>
+<li>／Library/Frameworks 保存第三方框架（iOS上为空）</li>
+<li>~/Library/Frameworks 保存用户提供的框架</li>
+<li>/System/Library/Private/Framworks 私有框架</li>
+</ul>
+<h4 id="顶层框架"><a href="#顶层框架" class="headerlink" title="顶层框架"></a>顶层框架</h4><ul>
+<li>Carbon</li>
+<li>Cocoa</li>
+</ul>
+<p>Cocoa框架包含了其他3个框架：AppKit，CoreData和Foudation。封装了其他框架的框架通常称为 保护伞框架（umbrella framework）.</p>
+<p>// TODO 本章还有些后续内容，更为底层，以后了解更深时过来交作业～</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/19/TensorFlow-二-TensorFlow-iOS-Examples/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -742,7 +968,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -755,7 +981,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">23</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
