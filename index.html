@@ -247,6 +247,170 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/29/iOS开发：获取最近截屏的图片/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="melody5417">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="melody5417">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/03/29/iOS开发：获取最近截屏的图片/" itemprop="url">
+                  iOS开发：获取最近截屏的图片
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-29T23:49:51+08:00">
+                2018-03-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/03/29/iOS开发：获取最近截屏的图片/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/03/29/iOS开发：获取最近截屏的图片/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>产品大大提了个需求「最近截屏图片的快捷提示」，开发初期被 <strong>截屏</strong> 误导，导致走了歪路。这里记录下开发思路和相关知识点。之前也没有开发过 <strong>相册</strong> 相关模块，所以借此机会学习下 <strong>PhotoKit</strong> 并整理了脑图，先立个flag，坐等 PhotoKit 的分享。</p>
+<h2 id="预研"><a href="#预研" class="headerlink" title="预研"></a>预研</h2><p>这个需求具体是这样：</p>
+<ol>
+<li><p>当用户进入App主界面时，检测到30s内有截屏操作，进行图片快捷提示（样式可参考微信发送图片的快捷提示).</p>
+<p align="center"><br> <img src="https://raw.githubusercontent.com/melody5417/Photos/master/Resources/wechatDemo.jpg" width="90" height="160"><br></p>
+</li>
+<li><p>若用户未点击提示，3s自动消失。</p>
+</li>
+</ol>
+<p>如前言所说，我最开始被截屏这个操作误导，去调研截屏相关的知识。了解到有用户按下 Home 和 Lock 截屏的通知： <strong>UIApplicationUserDidTakeScreenshotNotification</strong>，以为监听该通知就可以了。但是这个需求的应用场景是：用户在我们的App处于后台的情况下截屏，App处于后台根本无法收到该通知了。所以这个思路肯定不对。</p>
+<p>仔细体验了微信的发送图片提示功能后，确定微信的实现原理应该和截屏没有一毛钱关系！应该是当用户点击 <img src="https://raw.githubusercontent.com/melody5417/Photos/master/Resources/wechatSendButton.jpg" width="20" height="20"> 按钮时，去检索了截屏相册的图片，获取一定时间内最新添加的截屏图片。明白这个原理就OK了。</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><ol>
+<li><p>获取相册权限</p>
+<p> Info.plist 添加 Key: <strong>NSPhotoLibraryUsageDescription</strong>。 App启动后首次访问相册等操作 会呼出如下图的 申请权限 弹窗，用户确认后才能获得权限访问相册。</p>
+<p align="center"><br> <img src="https://raw.githubusercontent.com/melody5417/Photos/master/Resources/requestPermission.jpg" width="90" height="160"><br></p></li>
+<li><p>校验权限</p>
+<p> 检测 PHPhotoLibrary.authorizationStatus() 状态：</p>
+<ul>
+<li><p>authorized    顺序进行后续操作， </p>
+<ul>
+<li>notDetermined 可以呼出申请权限的弹窗，</li>
+<li>denied        用户已拒绝授权，此时可以引导用户到设置页面开启权限，</li>
+<li>restricted    若返回这个状态，说明第一步没有操作正确，如果还要强制操作必然crash。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">func checkPermission(resultHandler: @escaping (Bool) -&gt; Void) &#123;</div><div class="line">       let status = PHPhotoLibrary.authorizationStatus()</div><div class="line">       switch status &#123;</div><div class="line">       case .notDetermined:</div><div class="line">           PHPhotoLibrary.requestAuthorization &#123; (status) in</div><div class="line">               if status == .authorized &#123;</div><div class="line">                   resultHandler(true)</div><div class="line">               &#125;</div><div class="line">           &#125;</div><div class="line"></div><div class="line">       case .authorized:</div><div class="line">           resultHandler(true)</div><div class="line"></div><div class="line">       default:</div><div class="line">           resultHandler(false)</div><div class="line">       &#125;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>检索截屏相册并获取图片数据</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">func getScreenShotRecentlyAdded(resultHandler: @escaping (UIImage?) -&gt; Swift.Void) &#123;</div><div class="line"></div><div class="line">       guard let screenshotCollection = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumScreenshots, options: nil).firstObject else &#123;</div><div class="line">           return</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       let options = PHFetchOptions()</div><div class="line">       options.wantsIncrementalChangeDetails = true</div><div class="line">       options.predicate = NSPredicate(format: &quot;creationDate &gt; %@&quot;, NSDate().addingTimeInterval(-30))</div><div class="line">       options.sortDescriptors = [NSSortDescriptor(key: &quot;creationDate&quot;, ascending: false)]</div><div class="line">       guard let screenshot = PHAsset.fetchAssets(in: screenshotCollection, options: options).firstObject else &#123;</div><div class="line">           return</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       PHImageManager.default().requestImage(for: screenshot,</div><div class="line">                                             targetSize: PHImageManagerMaximumSize,</div><div class="line">                                             contentMode: .aspectFit,</div><div class="line">                                             options: nil) &#123; (image, infoDic) in</div><div class="line">           resultHandler(image)</div><div class="line">       &#125;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>优化<br> 主流程全部走通提测后，提测提了个bug：截屏30s内多次切换 App 到前后台，同一张截屏图片会提醒多次，这里也确实是自己考虑的不周，加了个 SHA1 去重检测。</p>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/05/Xcode-配置多种-Configuration/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1620,142 +1784,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/11/block中weakSelf和strongSelf详解/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="melody5417">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="melody5417">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/11/block中weakSelf和strongSelf详解/" itemprop="url">
-                  block中weakSelf和strongSelf详解
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-11T21:12:52+08:00">
-                2017-04-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/04/11/block中weakSelf和strongSelf详解/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/11/block中weakSelf和strongSelf详解/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>最近在看SDWebImage的源码，其中对block中循环引用问题的处理值得学习。之前的项目也遇到过循环引用的问题，遂有必要研究总结。</p>
-<h2 id="当block直接或间接的被self持有时，需用weakSelf"><a href="#当block直接或间接的被self持有时，需用weakSelf" class="headerlink" title="当block直接或间接的被self持有时，需用weakSelf"></a>当block直接或间接的被self持有时，需用weakSelf</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">dispatch_block_t completionBlock = ^&#123; </div><div class="line">// self未持有block，可直接用self </div><div class="line">NSLog(@&quot;%@&quot;, self); </div><div class="line">&#125; </div><div class="line">MyViewController *myController = [[MyViewController alloc] init...]; </div><div class="line">[self presentViewController:myController animated:YES completion:completionHandler];</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">__weak typeof(self) weakSelf = self;</div><div class="line">self.completionHandler = ^&#123; </div><div class="line">// self 持有 block，直接用 self 會造成 retain cycle </div><div class="line">NSLog(@&quot;%@&quot;, weakSelf);</div><div class="line">&#125; </div><div class="line">MyViewController *myController = [[MyViewController alloc] init...]; </div><div class="line">[self presentViewController:myController animated:YES completion:self.completionHandler];</div></pre></td></tr></table></figure>
-<h2 id="block中需多次访问self，需用strongSelf"><a href="#block中需多次访问self，需用strongSelf" class="headerlink" title="block中需多次访问self，需用strongSelf"></a>block中需多次访问self，需用strongSelf</h2><p>只使用 weak 的问题在于，如果在block中必须多次使用到weakSelf会有危险。因为在多次执行下，weakSelf有可能变为nil。所以需要使用strongSelf，确保 self 的有效性。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">__weak typeof(self) weakSelf = self; </div><div class="line">dispatch_block_t block = ^&#123; </div><div class="line">[weakSelf doSomething]; // weakSelf != nil </div><div class="line">// preemption, weakSelf turned nil </div><div class="line">[weakSelf doSomethingElse]; // weakSelf == nil </div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">__weak typeof(self) weakSelf = self;</div><div class="line">myObj.myBlock = ^&#123; </div><div class="line">__strong typeof(weakSelf) strongSelf = weakSelf; </div><div class="line">if (strongSelf) &#123; </div><div class="line">[strongSelf doSomething]; // strongSelf != nil </div><div class="line">// preemption, strongSelf still not nil </div><div class="line">[strongSelf doSomethingElse]; // strongSelf != nil </div><div class="line">&#125; else &#123; </div><div class="line">// Probably nothing... return; </div><div class="line">&#125; </div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1805,7 +1833,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1860,7 +1888,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
